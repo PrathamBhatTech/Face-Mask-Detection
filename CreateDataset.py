@@ -1,0 +1,201 @@
+import os
+import cv2
+import numpy as np
+import tkinter as tk
+import tkinter.font as tkFont
+import mediapipe as mp
+from time import sleep, time
+import uuid
+
+# Detection function
+def get_detection(frame):
+    
+    height, width, channel = frame.shape
+
+    # Convert frame BGR to RGB colorspace
+    imgRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    # Detect results from the frame
+    result = face_detection.process(imgRGB)
+    
+    # Extract data from result
+    try:
+        for count, detection in enumerate(result.detections):
+            # print(detection)
+        
+            # Extract bounding box information 
+ 
+            box = detection.location_data.relative_bounding_box
+            x, y, w, h = int(box.xmin*width), int(box.ymin * height), int(box.width*width), int(box.height*height)
+            
+    # If detection is not available then pass 
+    except:
+        pass
+
+    return x, y, w, h
+
+# def capturePics():
+#     cap = cv2.VideoCapture(0)
+#     _, frame = cap.read()
+#     frame = cv2.flip(frame,1)
+#     cv2.imshow("frame", frame)
+
+#     img = frame.copy()
+
+#     while(True):
+#         try:
+#             x, y, w, h = get_detection(frame)
+#             crop_img = img[y:y+h, x:x+w]
+#             crop_img = cv2.resize(crop_img, (100, 100))
+#             crop_img = np.expand_dims(crop_img, axis=0)
+#             break
+#         except Exception as e:
+#             pass
+    
+#     return frame, crop_img
+
+
+def CreateDataset(timedelay, number_of_images, category):
+
+        cap = cv2.VideoCapture(0)
+        while True:
+            _, frame = cap.read()
+            img = frame.copy()
+            
+            try:
+                x, y, w, h = get_detection(frame)
+                crop_img = img[y:y+h, x:x+w]
+                # crop_img = cv2.resize(crop_img, (100, 100))
+                # crop_img = np.expand_dims(crop_img, axis=0)
+
+                path = os.path.dirname(os.path.abspath(__file__))
+
+                filename = path + '/' + "NewDataset/" + category + "/" + str(uuid.uuid4()) + ".jpg"
+                cv2.imwrite(filename, crop_img)
+                cv2.imshow("frame", crop_img)
+
+                number_of_images -= 1
+            except Exception as e:
+                pass
+
+            sleep(timedelay)
+
+            if cv2.waitKey(1) == ord('q') or number_of_images == 0:
+                cap.release()
+                cv2.destroyAllWindows()
+                exit()
+                break
+
+
+class App:
+    def __init__(self, root):
+        #setting title
+        root.title("Mask Dataset Generator")
+
+        #setting window size
+        width=600
+        height=500
+        screenwidth = root.winfo_screenwidth()
+        screenheight = root.winfo_screenheight()
+        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        root.geometry(alignstr)
+        root.resizable(width=False, height=False)
+
+        #Labels
+        Title_Label=tk.Label(root)
+        ft = tkFont.Font(family='Times',size=40)
+        Title_Label["font"] = ft
+        Title_Label["fg"] = "#333333"
+        Title_Label["justify"] = "center"
+        Title_Label["text"] = "Mask Dataset Generator"
+        Title_Label.place(x=0,y=10,width=600,height=62)
+
+        TimeDelay_Label=tk.Label(root)
+        ft = tkFont.Font(family='Times',size=20)
+        TimeDelay_Label["font"] = ft
+        TimeDelay_Label["fg"] = "#333333"
+        TimeDelay_Label["justify"] = "center"
+        TimeDelay_Label["text"] = "Time Delay: "
+        TimeDelay_Label.place(x=120,y=160, width=150, height=37)
+
+        NumberOfImages_Label=tk.Label(root)
+        ft = tkFont.Font(family='Times',size=20)
+        NumberOfImages_Label["font"] = ft
+        NumberOfImages_Label["fg"] = "#333333"
+        NumberOfImages_Label["justify"] = "center"
+        NumberOfImages_Label["text"] = "Number of images: "
+        NumberOfImages_Label.place(x=80,y=210, width=250, height=37)
+
+        TimeDelayUnit_Label=tk.Label(root)
+        ft = tkFont.Font(family='Times',size=20)
+        TimeDelayUnit_Label["font"] = ft
+        TimeDelayUnit_Label["fg"] = "#333333"
+        TimeDelayUnit_Label["justify"] = "center"
+        TimeDelayUnit_Label["text"] = "s"
+        TimeDelayUnit_Label.place(x=370,y=160,width=40,height=40)
+
+        #Entries
+        self.TimeDelay_Entry=tk.Entry(root)
+        self.TimeDelay_Entry["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=20)
+        self.TimeDelay_Entry["font"] = ft
+        self.TimeDelay_Entry["fg"] = "#333333"
+        self.TimeDelay_Entry["justify"] = "center"
+        self.TimeDelay_Entry["text"] = "TimeDelay"
+        self.TimeDelay_Entry["textvariable"] = "0.5"
+        self.TimeDelay_Entry.insert(0, "0.25")      #Setting default values
+        self.TimeDelay_Entry.place(x=265,y=165,width=100,height=30)
+
+        self.NumberOfImages_Entry=tk.Entry(root)
+        self.NumberOfImages_Entry["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=20)
+        self.NumberOfImages_Entry["font"] = ft
+        self.NumberOfImages_Entry["fg"] = "#333333"
+        self.NumberOfImages_Entry["justify"] = "center"
+        self.NumberOfImages_Entry["text"] = "NumberOfImages"
+        self.NumberOfImages_Entry.insert(0, "50")      #Setting default values
+        self.NumberOfImages_Entry.place(x=325,y=215,width=100,height=30)
+
+        #BUTTONS
+        WithMask_Button=tk.Button(root)
+        WithMask_Button["bg"] = "#efefef"
+        ft = tkFont.Font(family='Times',size=20)
+        WithMask_Button["font"] = ft
+        WithMask_Button["fg"] = "#000000"
+        WithMask_Button["justify"] = "center"
+        WithMask_Button["text"] = "With Mask"
+        WithMask_Button.place(x=70,y=300,width=200,height=60)
+        WithMask_Button["command"] = self.WithMask_Button_Clicked
+
+        WithoutMask_Button=tk.Button(root)
+        WithoutMask_Button["bg"] = "#efefef"
+        ft = tkFont.Font(family='Times',size=20)
+        WithoutMask_Button["font"] = ft
+        WithoutMask_Button["fg"] = "#000000"
+        WithoutMask_Button["justify"] = "center"
+        WithoutMask_Button["text"] = "Without Mask"
+        WithoutMask_Button.place(x=330,y=300,width=200,height=60)
+        WithoutMask_Button["command"] = self.WithoutMask_Button_Clicked
+
+
+    def WithMask_Button_Clicked(self):
+        self.CallCreateDataset('with_mask')
+
+    def WithoutMask_Button_Clicked(self):
+        self.CallCreateDataset('without_mask')
+
+    def CallCreateDataset(self, category):
+        timedelay = float(self.TimeDelay_Entry.get())
+        number_of_images = int(self.NumberOfImages_Entry.get())
+        CreateDataset(timedelay, number_of_images, category)
+
+
+
+if __name__ == "__main__":
+
+    face_detection = mp.solutions.face_detection.FaceDetection(0.4)   
+
+    # Initiate the tkinter window and set its values
+    root = tk.Tk()
+    app = App(root)
+
+    root.mainloop()
