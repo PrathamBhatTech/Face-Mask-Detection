@@ -7,6 +7,15 @@ import mediapipe as mp
 from time import sleep, time
 import uuid
 
+
+path = os.path.dirname(os.path.abspath(__file__))
+
+if not os.path.isdir('NewDataset'):
+    os.mkdir(os.path.join(path, 'NewDataset'))
+    os.mkdir(os.path.join(path, 'NewDataset/with_mask'))
+    os.mkdir(os.path.join(path, 'NewDataset/without_mask'))    
+
+
 # Detection function
 def get_detection(frame):
     
@@ -66,8 +75,6 @@ def CreateDataset(timedelay, number_of_images, category):
                 crop_img = img[y:y+h, x:x+w]
                 # crop_img = cv2.resize(crop_img, (100, 100))
                 # crop_img = np.expand_dims(crop_img, axis=0)
-
-                path = os.path.dirname(os.path.abspath(__file__))
 
                 filename = path + '/' + "NewDataset/" + category + "/" + str(uuid.uuid4()) + ".jpg"
                 cv2.imwrite(filename, crop_img)
