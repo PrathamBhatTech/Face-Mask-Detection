@@ -1,22 +1,32 @@
+'''
+    Author: Pratham Bhat
+            Pooshpal Baheti
+    
+    Description: Used to create datasets for mask detection.
+                 User can control time delay and the number of pictures per run.
+'''
+
+
 import os
 import cv2
-import numpy as np
-import tkinter as tk
-import tkinter.font as tkFont
-import mediapipe as mp
-from time import sleep, time
 import uuid
+import tkinter as tk
+from time import sleep
+import tkinter.font as tkFont
+from mediapipe.python.solutions.face_detection import FaceDetection
 
 
+# Get the path of this file
 path = os.path.dirname(os.path.abspath(__file__))
 
+# If the folders required are not detected then they are created.
 if not os.path.isdir('NewDataset'):
     os.mkdir(os.path.join(path, 'NewDataset'))
     os.mkdir(os.path.join(path, 'NewDataset/with_mask'))
     os.mkdir(os.path.join(path, 'NewDataset/without_mask'))    
 
 
-# Detection function
+# Face detection. It returns the bounding box coordinates of a face in the image and returns it.
 def get_detection(frame):
     
     height, width, channel = frame.shape
@@ -29,39 +39,14 @@ def get_detection(frame):
     # Extract data from result
     try:
         for count, detection in enumerate(result.detections):
-            # print(detection)
-        
-            # Extract bounding box information 
- 
+            # Extract bounding box information  
             box = detection.location_data.relative_bounding_box
             x, y, w, h = int(box.xmin*width), int(box.ymin * height), int(box.width*width), int(box.height*height)
-            
-    # If detection is not available then pass 
-    except:
-        pass
+
+    except Exception as e:# If there is an exception print the exception for review and continue 
+        print('ERROR: ', e)
 
     return x, y, w, h
-
-# def capturePics():
-#     cap = cv2.VideoCapture(0)
-#     _, frame = cap.read()
-#     frame = cv2.flip(frame,1)
-#     cv2.imshow("frame", frame)
-
-#     img = frame.copy()
-
-#     while(True):
-#         try:
-#             x, y, w, h = get_detection(frame)
-#             crop_img = img[y:y+h, x:x+w]
-#             crop_img = cv2.resize(crop_img, (100, 100))
-#             crop_img = np.expand_dims(crop_img, axis=0)
-#             break
-#         except Exception as e:
-#             pass
-    
-#     return frame, crop_img
-
 
 def CreateDataset(timedelay, number_of_images, category):
 
@@ -89,7 +74,6 @@ def CreateDataset(timedelay, number_of_images, category):
             if cv2.waitKey(1) == ord('q') or number_of_images == 0:
                 cap.release()
                 cv2.destroyAllWindows()
-                exit()
                 break
 
 
@@ -149,7 +133,7 @@ class App:
         self.TimeDelay_Entry["justify"] = "center"
         self.TimeDelay_Entry["text"] = "TimeDelay"
         self.TimeDelay_Entry["textvariable"] = "0.5"
-        self.TimeDelay_Entry.insert(0, "0.25")      #Setting default values
+        self.TimeDelay_Entry.insert(0, "0.2")      #Setting default values
         self.TimeDelay_Entry.place(x=265,y=165,width=100,height=30)
 
         self.NumberOfImages_Entry=tk.Entry(root)
@@ -159,7 +143,7 @@ class App:
         self.NumberOfImages_Entry["fg"] = "#333333"
         self.NumberOfImages_Entry["justify"] = "center"
         self.NumberOfImages_Entry["text"] = "NumberOfImages"
-        self.NumberOfImages_Entry.insert(0, "50")      #Setting default values
+        self.NumberOfImages_Entry.insert(0, "40")      #Setting default values
         self.NumberOfImages_Entry.place(x=325,y=215,width=100,height=30)
 
         #BUTTONS
@@ -199,7 +183,9 @@ class App:
 
 if __name__ == "__main__":
 
-    face_detection = mp.solutions.face_detection.FaceDetection(0.4)   
+    # face_detection = mp.solutions.face_detection.FaceDetection(0.4)   
+    face_detection = FaceDetection(0.4)   
+
 
     # Initiate the tkinter window and set its values
     root = tk.Tk()
