@@ -1,4 +1,4 @@
-opencv-python==4.1.2.30
+opencv-python>=4.2.0.32
 opencv-contrib-python==4.5.3.56
 mediapipe==0.8.8
 tensorflow==2.6.0
