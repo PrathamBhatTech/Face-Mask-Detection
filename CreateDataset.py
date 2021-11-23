@@ -2,8 +2,8 @@
     Author: Pratham Bhat
             Pooshpal Baheti
     
-    Description: Used to create datasets for mask detection.
-                 User can control time delay and the number of pictures per run.
+    Description:    Used to create datasets for mask detection.
+                    User can control time delay and the number of pictures per run.
 '''
 
 
@@ -11,19 +11,22 @@ import os
 import cv2
 import uuid
 import tkinter as tk
-from time import sleep
+import time
 import tkinter.font as tkFont
 from mediapipe.python.solutions.face_detection import FaceDetection
+import matplotlib.pyplot as plt
 
 
 # Get the path of this file
 path = os.path.dirname(os.path.abspath(__file__))
 
-# If the folders required are not detected then they are created.
-if not os.path.isdir('NewDataset'):
-    os.mkdir(os.path.join(path, 'NewDataset'))
-    os.mkdir(os.path.join(path, 'NewDataset/with_mask'))
-    os.mkdir(os.path.join(path, 'NewDataset/without_mask'))    
+folder_name = 'NewDataset'
+
+# If the required folders are not detected then they are created.
+if not os.path.isdir(folder_name):
+    os.mkdir(os.path.join(path, folder_name))
+    os.mkdir(os.path.join(path, folder_name, '/with_mask'))
+    os.mkdir(os.path.join(path, folder_name, '/without_mask'))    
 
 
 # Face detection. It returns the bounding box coordinates of a face in the image and returns it.
@@ -47,34 +50,68 @@ def get_detection(frame):
         print('ERROR: ', e)
 
     return x, y, w, h
+    
+def SaveImage(img, category):
+    # Get the coordinates of the face that is detected in the image.
+    x, y, w, h = get_detection(img)
+    # Crop the face from the image using the coordinates from the get_detection function.
+    crop_img = img[y:y+h, x:x+w]
+    '''
+    crop_img = cv2.resize(crop_img, (100, 100))
+    crop_img = np.expand_dims(crop_img, axis=0)
+    '''
+
+    # Save the cropped image to the correct folder with a unique id as its name.
+    filename = path + '/' + folder_name + "/" + category + "/" + str(uuid.uuid4()) + ".jpg"
+    cv2.imwrite(filename, crop_img)
+
+    # Show the cropped image.
+    # cv2.imshow("crop img", crop_img)
+
 
 def CreateDataset(timedelay, number_of_images, category):
+    # Start capturing video from the webcam.
+    # NOTE: If you want to use an external webcam replace 0 with 1
+    cap = cv2.VideoCapture(0)
 
-        cap = cv2.VideoCapture(0)
-        while True:
+    print("Focusing camera. Please wait.")        
+    # This is to allow the camera to focus properly before collecting pictures.
+    time.sleep(2)
+
+    while number_of_images:
+        timedelay_temp = timedelay
+        previousTime = time.time()
+        
+        while timedelay_temp > 0:
+            # Extract the most recent frame from the camera.
             _, frame = cap.read()
-            img = frame.copy()
+
+            # Show the frame
+            # print("frame should be updated")
+            cv2.imshow("frame", frame)
+
             
-            try:
-                x, y, w, h = get_detection(frame)
-                crop_img = img[y:y+h, x:x+w]
-                # crop_img = cv2.resize(crop_img, (100, 100))
-                # crop_img = np.expand_dims(crop_img, axis=0)
+            # img = frame.copy()
+            currentTime = time.time()
+            timedelay_temp = timedelay_temp - (currentTime - previousTime)
+            previousTime = currentTime
 
-                filename = path + '/' + "NewDataset/" + category + "/" + str(uuid.uuid4()) + ".jpg"
-                cv2.imwrite(filename, crop_img)
-                cv2.imshow("frame", crop_img)
-
+        else:
+            try: 
+                SaveImage(frame, category)
                 number_of_images -= 1
+                    
             except Exception as e:
-                pass
+                print("Error = ", e)
+        
 
-            sleep(timedelay)
-
-            if cv2.waitKey(1) == ord('q') or number_of_images == 0:
-                cap.release()
-                cv2.destroyAllWindows()
-                break
+        # Waits until the number of images requested by the user is stored or until 'q' is pressed
+        # and closes every opencv window
+        if cv2.waitKey(1) == ord('q'):
+            break
+    
+    cap.release()
+    cv2.destroyAllWindows()
 
 
 class App:
@@ -90,7 +127,6 @@ class App:
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         root.geometry(alignstr)
         root.resizable(width=False, height=False)
-
         #Labels
         Title_Label=tk.Label(root)
         ft = tkFont.Font(family='Times',size=40)
@@ -124,6 +160,7 @@ class App:
         TimeDelayUnit_Label["text"] = "s"
         TimeDelayUnit_Label.place(x=370,y=160,width=40,height=40)
 
+
         #Entries
         self.TimeDelay_Entry=tk.Entry(root)
         self.TimeDelay_Entry["borderwidth"] = "1px"
@@ -146,7 +183,8 @@ class App:
         self.NumberOfImages_Entry.insert(0, "40")      #Setting default values
         self.NumberOfImages_Entry.place(x=325,y=215,width=100,height=30)
 
-        #BUTTONS
+
+        #Buttons
         WithMask_Button=tk.Button(root)
         WithMask_Button["bg"] = "#efefef"
         ft = tkFont.Font(family='Times',size=20)
@@ -174,16 +212,18 @@ class App:
     def WithoutMask_Button_Clicked(self):
         self.CallCreateDataset('without_mask')
 
+
     def CallCreateDataset(self, category):
+        # Get data from the entry labels.
         timedelay = float(self.TimeDelay_Entry.get())
         number_of_images = int(self.NumberOfImages_Entry.get())
+
         CreateDataset(timedelay, number_of_images, category)
 
 
 
 if __name__ == "__main__":
-
-    # face_detection = mp.solutions.face_detection.FaceDetection(0.4)   
+    # Create a face detection function with its minimum accuracy at 40%
     face_detection = FaceDetection(0.4)   
 
 
