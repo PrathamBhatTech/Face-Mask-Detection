@@ -1,6 +1,7 @@
 # Mask-Detection
-Detects if the person in front of the camera is wearing a mask or not.
-Outlines the face of the person's face making it easy for the person monitoring to discover. 
+Detects if the person in front of the camera is wearing a mask or not.<br>
+Outlines the face of the person's face making it easy for the person monitoring to discover.<br>
+The create dataset ability can be used to create or increase the size of the dataset which will result in a better accuracy when trained later.<br>
 <br>
 
 <h2>Detection:</h2>
