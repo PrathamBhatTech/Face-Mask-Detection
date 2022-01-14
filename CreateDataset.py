@@ -10,23 +10,23 @@
 import os
 import cv2
 import uuid
-import tkinter as tk
 import time
+import asyncio
+import tkinter as tk
 import tkinter.font as tkFont
 from mediapipe.python.solutions.face_detection import FaceDetection
-import matplotlib.pyplot as plt
 
 
 # Get the path of this file
 path = os.path.dirname(os.path.abspath(__file__))
 
-folder_name = 'NewDataset'
+folder_name = 'Dataset'
 
 # If the required folders are not detected then they are created.
 if not os.path.isdir(folder_name):
     os.mkdir(os.path.join(path, folder_name))
-    os.mkdir(os.path.join(path, folder_name, '/with_mask'))
-    os.mkdir(os.path.join(path, folder_name, '/without_mask'))    
+    os.makedirs(os.path.join(path, folder_name + '/with_mask'))
+    os.makedirs(os.path.join(path, folder_name + '/without_mask'))    
 
 
 # Face detection. It returns the bounding box coordinates of a face in the image and returns it.
@@ -51,11 +51,11 @@ def get_detection(frame):
 
     return x, y, w, h
     
-def SaveImage(img, category):
+async def SaveImage(img, category, timedelay):
     # Get the coordinates of the face that is detected in the image.
     x, y, w, h = get_detection(img)
     # Crop the face from the image using the coordinates from the get_detection function.
-    crop_img = img[y:y+h, x:x+w]
+    crop_img = img[y-20:y+h+10, x-15:x+w+15]
     '''
     crop_img = cv2.resize(crop_img, (100, 100))
     crop_img = np.expand_dims(crop_img, axis=0)
@@ -68,42 +68,38 @@ def SaveImage(img, category):
     # Show the cropped image.
     # cv2.imshow("crop img", crop_img)
 
+    await asyncio.sleep(timedelay)
 
-def CreateDataset(timedelay, number_of_images, category):
+
+async def CreateDataset(timedelay, number_of_images, category):
     # Start capturing video from the webcam.
     # NOTE: If you want to use an external webcam replace 0 with 1
     cap = cv2.VideoCapture(0)
 
-    print("Focusing camera. Please wait.")        
+    print("Focusing camera. Please wait.")
+    _, frame = cap.read()
     # This is to allow the camera to focus properly before collecting pictures.
     time.sleep(2)
 
     while number_of_images:
-        timedelay_temp = timedelay
-        previousTime = time.time()
         
-        while timedelay_temp > 0:
-            # Extract the most recent frame from the camera.
-            _, frame = cap.read()
+        _, frame = cap.read()
 
-            # Show the frame
-            # print("frame should be updated")
-            cv2.imshow("frame", frame)
+        # Show the frame
+        # print("frame should be updated")
+        cv2.imshow("frame", frame)
 
-            
-            # img = frame.copy()
-            currentTime = time.time()
-            timedelay_temp = timedelay_temp - (currentTime - previousTime)
-            previousTime = currentTime
-
-        else:
-            try: 
-                SaveImage(frame, category)
+        try:
+            if task.done():
+                task = asyncio.create_task(SaveImage(frame, category, timedelay))
                 number_of_images -= 1
-                    
-            except Exception as e:
-                print("Error = ", e)
+        except:     #For 1st run
+            task = asyncio.create_task(SaveImage(frame, category, timedelay))
+            number_of_images -= 1
+
         
+        
+        await asyncio.sleep(0.1)
 
         # Waits until the number of images requested by the user is stored or until 'q' is pressed
         # and closes every opencv window
@@ -180,7 +176,7 @@ class App:
         self.NumberOfImages_Entry["fg"] = "#333333"
         self.NumberOfImages_Entry["justify"] = "center"
         self.NumberOfImages_Entry["text"] = "NumberOfImages"
-        self.NumberOfImages_Entry.insert(0, "40")      #Setting default values
+        self.NumberOfImages_Entry.insert(0, "30")      #Setting default values
         self.NumberOfImages_Entry.place(x=325,y=215,width=100,height=30)
 
 
@@ -218,7 +214,7 @@ class App:
         timedelay = float(self.TimeDelay_Entry.get())
         number_of_images = int(self.NumberOfImages_Entry.get())
 
-        CreateDataset(timedelay, number_of_images, category)
+        asyncio.run(CreateDataset(timedelay, number_of_images, category))
 
 
 
