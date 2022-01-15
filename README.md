@@ -17,7 +17,9 @@ The create dataset ability can be used to create or increase the size of the dat
 <br><br>
 
 ## Creating Dataset:
-<img src="/DemoImages/Demo_CreateDataset.png" alt="DatasetCreator IMG"/>
+<!-- <img src="/DemoImages/Demo_CreateDataset.png" alt="DatasetCreator IMG"/> -->
+<img src="/DemoImages/Demo_CreatedDataset.png" alt="DatasetCreated IMG"/>
+<br>
 
 ## Built with:
   * Python
@@ -26,6 +28,8 @@ The create dataset ability can be used to create or increase the size of the dat
   * Tensorflow
   * Tkinter
   * asyncio
+
+<br>
 
 ## Prerequisites:
   * For Linux: `sudo apt-get install python3.9 pip`
@@ -40,6 +44,8 @@ The create dataset ability can be used to create or increase the size of the dat
   * Change current directory to the repo: `cd Mask-Detection`
   
   * Install requirements: `pip install -r requirements.txt`
+
+<br>
 
 ## Usage:
  * To run the mask detection: `python3.9 Run.py`
