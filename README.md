@@ -44,7 +44,12 @@ The create dataset ability can be used to create or increase the size of the dat
 ## Usage:
  * To run the mask detection: `python3.9 Run.py`
  * To run the dataset creator: `python3.9 CreateDataset.py`
-
+ * To train a model using the dataset you created:
+   * Upload the dataset after zipping(.zip) to your drive.
+    * open the `train.ipynb` file using google collab. Login to the account you uploaded the dataset.
+    * Modify the path of the dataset in the code.
+    * Start training.
+    * Download the trained model.
 <!-- Markdown Links -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/pratham-bhat-176b34202/
