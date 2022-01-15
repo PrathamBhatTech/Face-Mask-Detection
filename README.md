@@ -41,9 +41,10 @@ The create dataset ability can be used to create or increase the size of the dat
   
   * Install requirements: `pip install -r requirements.txt`
 
+## Usage:
+ * To run the mask detection: `python3.9 Run.py`
+ * To run the dataset creator: `python3.9 CreateDataset.py`
 
 <!-- Markdown Links -->
-[contributors-shield]: https://img.shields.io/github/PrathamBhatTech/Mask-Detection.svg?style=for-the-badge
-[contributors-url]: https://github.com/PrathamBhatTech/Mask-Detection
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/pratham-bhat-176b34202/
