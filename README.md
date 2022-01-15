@@ -21,3 +21,24 @@ The create dataset ability can be used to create or increase the size of the dat
   <li>Tkinter</li>
   <li>asyncio</li>
 </ul>
+
+<h2>Prerequisites:</h2>
+<ul>
+  <li>For Linux: ```
+                    sudo apt-get install python3.9 pip
+                 ```
+  </li>
+  <li>For Windows: Follow these links to install python and pip
+        <ul>
+          <li>https://www.python.org/downloads/</li>
+          <li>https://phoenixnap.com/kb/install-pip-windows</li>
+        </ul>
+  </li>
+</ul>
+
+<h2>Installation:</h2>
+<ul>
+  <li>Clone the repository: ```git clone https://github.com/PrathamBhatTech/Mask-Detection.git```</li>
+  <li>Change current directory to the repo: ```cd Mask-Detection```</li>
+  <li>Install requirements: ```pip install -r requirements.txt```</li>
+</ul>
