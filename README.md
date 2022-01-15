@@ -58,7 +58,9 @@ The create dataset ability can be used to create or increase the size of the dat
     * Modify the path of the dataset in the code.
     * Start training.
     * Download the trained model.
+
 <br><br>
+
 Project Link: https://github.com/PrathamBhatTech/Mask-Detection
 
 <!-- Markdown Links -->
