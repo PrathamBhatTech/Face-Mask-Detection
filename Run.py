@@ -5,7 +5,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 # Load the model
-model = load_model('Models/model1.h5')
+model = load_model('model2.h5')
 
 # Define mediapipe Face detector
 face_detection = mp.solutions.face_detection.FaceDetection(0.4)
