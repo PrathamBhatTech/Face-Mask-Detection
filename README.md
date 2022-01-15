@@ -1,6 +1,6 @@
 <!-- BADGES -->
-<!-- ![Bitbucket open issues](https://img.shields.io/bitbucket/issues-raw/PrathamBhatTech/Mask-Detection)
-<br> -->
+![GitHub issues](https://img.shields.io/github/issues-raw/PrathamBhatTech/Mask-Detection?style=for-the-badge)
+<br>
 <!-- [![Contributors][contributors-shield]][contributors-url] -->
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
@@ -10,53 +10,35 @@ Outlines the face of the person's face making it easy for the person monitoring 
 The create dataset ability can be used to create or increase the size of the dataset which will result in a better accuracy when trained later.<br>
 <br>
 
-<h2>Detection:</h2>
+## Detection:
 <img src="/DemoImages/Demo_NoMask.png">
 <img src="/DemoImages/Demo_Mask.png">
 <br><br>
 
-<h2>Creating Dataset:</h2>
+## Creating Dataset:
 <img src="/DemoImages/Demo_CreateDataset.png">
 
-<h2>Built with:</h2>
-<ul>
-  <li>Python</li>
-  <li>OpenCV</li>
-  <li>Mediapipe</li>
-  <li>Tensorflow</li>
-  <li>Tkinter</li>
-  <li>asyncio</li>
-</ul>
+## Built with:
+  * Python
+  * OpenCV
+  * Mediapipe
+  * Tensorflow
+  * Tkinter
+  * asyncio
 
-<h2>Prerequisites:</h2>
-<ul>
-  <li>For Linux:
-    
-    sudo apt-get install python3.9 pip
-  </li>
-  <li>For Windows: Follow these links to install python and pip
-        <ul>
-          <li>https://www.python.org/downloads/</li>
-          <li>https://phoenixnap.com/kb/install-pip-windows</li>
-        </ul>
-  </li>
-</ul>
+## Prerequisites:
+  * For Linux: `sudo apt-get install python3.9 pip`
+  * For Windows: Follow these links to install python and pip
+    * https://www.python.org/downloads/
+    * https://phoenixnap.com/kb/install-pip-windows
 
-<h2>Installation:</h2>
-<ul>
-  <li>Clone the repository: 
+
+## Installation:
+  * Clone the repository: `git clone https://github.com/PrathamBhatTech/Mask-Detection.git`
     
-    git clone https://github.com/PrathamBhatTech/Mask-Detection.git
-  </li>
-  <li>Change current directory to the repo:
-    
-    cd Mask-Detection
-  </li>
-  <li>Install requirements: 
-    
-    pip install -r requirements.txt
-  </li>
-</ul>
+  * Change current directory to the repo: `cd Mask-Detection`
+  
+  * Install requirements: `pip install -r requirements.txt`
 
 
 <!-- Markdown Links -->
