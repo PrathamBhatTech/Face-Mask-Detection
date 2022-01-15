@@ -1,4 +1,5 @@
 <!-- BADGES -->
+![GitHub contributors](https://img.shields.io/github/contributors/PrathamBhatTech/Mask-Detection?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues-raw/PrathamBhatTech/Mask-Detection?style=for-the-badge)
 <br>
 <!-- [![Contributors][contributors-shield]][contributors-url] -->
