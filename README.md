@@ -12,12 +12,12 @@ The create dataset ability can be used to create or increase the size of the dat
 <br>
 
 ## Detection:
-<img src="/DemoImages/Demo_NoMask.png">
-<img src="/DemoImages/Demo_Mask.png">
+<img src="/DemoImages/Demo_NoMask.png" style="height: 420px; width: 476px;" alt="No Mask IMG"/> |
+<img src="/DemoImages/Demo_Mask.png" style="height: 420px; width: 476px;" alt="With Mask IMG"/>
 <br><br>
 
 ## Creating Dataset:
-<img src="/DemoImages/Demo_CreateDataset.png">
+<img src="/DemoImages/Demo_CreateDataset.png" alt="DatasetCreator IMG"/>
 
 ## Built with:
   * Python
@@ -50,7 +50,7 @@ The create dataset ability can be used to create or increase the size of the dat
     * Modify the path of the dataset in the code.
     * Start training.
     * Download the trained model.
-
+<br><br>
 Project Link: https://github.com/PrathamBhatTech/Mask-Detection
 
 <!-- Markdown Links -->
