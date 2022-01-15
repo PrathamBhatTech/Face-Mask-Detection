@@ -14,8 +14,8 @@ The create dataset ability can be used to create or increase the size of the dat
 <br>
 
 ## Detection:
-<img src="/DemoImages/Demo_NoMask.png" style="height: 420px; width: 476px;" alt="No Mask IMG"/> |
-<img src="/DemoImages/Demo_Mask.png" style="height: 420px; width: 476px;" alt="With Mask IMG"/>
+<img src="/DemoImages/Demo_NoMask.png" style="height: 300px; width: 300px;" alt="No Mask IMG"/> |
+<img src="/DemoImages/Demo_Mask.png" style="height: 300px; width: 300px;" alt="With Mask IMG"/>
 <br><br>
 
 ## Creating Dataset:
