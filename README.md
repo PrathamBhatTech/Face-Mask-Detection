@@ -1,4 +1,6 @@
 <!-- BADGES -->
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/PrathamBhatTech/Mask-Detection?include_prereleases&style=for-the-badge)
+<br>
 ![GitHub contributors](https://img.shields.io/github/contributors/PrathamBhatTech/Mask-Detection?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues-raw/PrathamBhatTech/Mask-Detection?style=for-the-badge)
 <br>
