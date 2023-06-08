@@ -8,9 +8,12 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 # Mask-Detection
-Detects if the person in front of the camera is wearing a mask or not.<br>
-Outlines the face of the person's face making it easy for the person monitoring to discover.<br>
-The create dataset ability can be used to create or increase the size of the dataset which will result in a better accuracy when trained later.<br>
+
+## Introduction
+During the Covid-19 Pandemic, immense efforts and resources have been put into maintaining protocols like Social Distancing and regulating mass public on usage of Masks. Any lapses on these fronts have resulted in countless fatalities and losses. This project is dedicated to contribute and provide help in regulating these protocols to ensure safety of mass population. Immense military and policing resources have
+been spent on regulating a compulsory mask wearing policy, and yet lapses have been found in public spaces. This project addresses this issue and aims to automate the process of checking for the presence of mask and provide support to authorities by issuing a warning.
+
+<br>
 <br>
 
 ## Detection:
@@ -19,6 +22,7 @@ The create dataset ability can be used to create or increase the size of the dat
 <br><br>
 
 ## Creating Dataset:
+This component works independently to create the dataset needed to train the model. This component makes use of the Tkinter library to make a Graphical User Interface to take in some parameters to customize the program. The program takes in time delay, no of images and choice to determine the time delay between every frame to be captured, the number of images to be taken into dataset and the option to make a dataset for mask and no mask. This is done to make it easy for the user to create datasets of their own by taking samples of different angles, lighting and conditions to help improve the model quality.
 <!-- <img src="/DemoImages/Demo_CreateDataset.png" alt="DatasetCreator IMG"/> -->
 <img src="/DemoImages/Demo_CreatedDataset.png" alt="DatasetCreated IMG"/>
 <br>
